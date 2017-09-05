@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Travel Dashboard</title>
+        <title>Quotes Dashboard</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
@@ -10,76 +10,47 @@
     </head>
     <body>
 
-    <h2>Welcome, {{ loggedin_user.first_name }}! </h2>    
+        <h2>Welcome, {{ loggedin_user.first_name }}! </h2>    
 
-        <!-- This shows the error messages -->
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    <button><a href="{% url 'logout' %}">Log Out</a></button>
+            <!-- This shows the error messages -->
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        <button><a href="{% url 'logout' %}">Log Out</a></button>
 
-    <h3>Your Trip Schedules</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-            <th>Destination</th>
-            <th>Travel Start Date</th>
-            <th>Travel End Date</th>
-            <th>Plan</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for trip in user_trips %}
-            <tr>
-                <td><a href="/travels/destination/{{ trip.id }}">{{ trip.destination }}</a></td>
-                <td>{{ trip.date_from }}</td>
-                <!-- <td>{{ item.added_by.first_name }}</td> -->
-                <td>{{ trip.date_to }}</td>
-                <td>{{ trip.desc }}</td>
-                <!-- <td>
-                    {% if item.added_by.first_name == loggedin_user.first_name %}
-                    <a href="/dashboard/destroy/{{ item.id }}">Delete</a>
-                    {% else %}
-                    <a href="/dashboard/remove/{{ item.id }}">Remove from my WishList</a>
-                    {% endif %}
-                </td>  -->
-            </tr>
+        <section class="all-quotes">
+            <h3>Quotable Quotes</h3>
+            {% for quote in quotes %}
+                <div class="quote-detail">
+                    <p>{{ quote.quoted_by }}</p><p>{{ quote.message }}</p>
+                    <p>Posted by <a href="users/{{ quote.added_by.id }}">{{ quote.added_by.first_name }}</a></p>
+                    <a href="addtolist/{{ quote.id }}"><button>Add to My List</button></a>
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
+        </section>
 
-    <h3>Other User's Travel Plans</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-            <th>Name</th>
-            <th>Destination</th>
-            <th>Travel Start Date</th>
-            <th>Travel End Date</th>
-            <th>Do You Want to Join?</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for trip in other_trips %}
-            <tr>
-                <td>{{ trip.added_by.first_name }}</td>
-                <td><a href="/travels/destination/{{ trip.id }}">{{ trip.destination }}</a></td>
-                
-                <td>{{ trip.date_from }}</td>
-                <td>{{ trip.date_to }}</td>
-                <td>
-                    <a href="travels/join/{{ trip.id }}">Join</a>
-                </td>
-            </tr>
+        <section class="fav-quotes">
+             <h3>Your Favorites</h3>
+            {% for quote in favs %}
+                <div class="quote-detail">
+                    <p>{{ quote.quoted_by }}</p><p>{{ quote.message }}</p>
+                    <p>Posted by <a href="users/{{ quote.added_by.id }}">{{ quote.added_by.first_name }}</a></p>
+                    <a href="removefromlist/{{ quote.id }}"><button>Remove From My List</button></a>
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
-    <button class="add-travel"><a href="{% url 'addtrip' %}">Add Travel Plan</a></button>
+        </section>
 
+        <h2>Contribute a Quote</h2>
 
+        <form action="{% url 'addquote' %}" method="post">
+                {% csrf_token %}
+                <label>Quoted By:</label><input type="text" name="quoted_by">
+                <label>Message:</label><textarea name="message" cols="30" rows="4"></textarea>
+                <input type="submit" value="Submit">
+        </form>
     </body>
 </html>

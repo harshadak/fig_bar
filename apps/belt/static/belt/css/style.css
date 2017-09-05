@@ -22,3 +22,22 @@ h1, button, .heading-margin {
 .heading-margin {
     margin-top: 20px;
 }
+
+.all-quotes, .fav-quotes {
+    display: inline-block;
+    width: 400px;
+    height: 600px;
+    overflow: scroll;
+    border: 2px solid black;
+    vertical-align: top;
+    padding: 30px;
+    margin: 40px;
+}
+.quote-detail {
+   border: 1px solid black; 
+   margin-bottom: 15px;
+}
+
+form {
+    margin: 40px;
+}
