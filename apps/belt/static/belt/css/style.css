@@ -1,0 +1,24 @@
+/* Validation styles */
+
+.error{
+    color: red;
+    background-color: yellow;
+}
+.blank{
+    color: blue;
+}
+.password{
+    color: purple;
+}
+.good{
+    color: green;
+}
+h2 {
+    color: purple;
+}
+h1, button, .heading-margin {
+    margin-bottom: 20px;
+}
+.heading-margin {
+    margin-top: 20px;
+}

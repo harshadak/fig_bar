@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Travel Buddy</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'belt/css/style.css' %}">
+    </head>
+    <body>
+
+        <!-- This shows the error messages -->
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <h1>Welcome to Travel Buddy!</h1>
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <h2>Register</h2>
+            Name: <input type="text" name="f_name" value="">
+            Username: <input type="text" name="u_name" value="">
+            <!-- email: <input type="text" name="user_email" value=""> -->
+            Password: <input type="password" name="pass" value="">
+            <p>*Password should be at least 8 characters</p>
+            Confirm PW: <input type="password" name="confirm_password" value="">
+            <input type="submit" value="Register">
+        </form>
+
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <h2>Login:</h2>
+            Username: <input type="text" name="u_name" value="">
+            password: <input type="password" name="pass" value="">
+            <input type="submit" value="Login">
+        </form>    
+
+    </body>
+</html>
